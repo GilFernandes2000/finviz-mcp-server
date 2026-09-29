@@ -2,7 +2,7 @@
 
 This directory contains documentation and guides for the Finviz MCP Server project.
 
-> Note: this `articles/` directory is the GitHub Pages publish root (see `.github/workflows/deploy-pages.yml`). Anything placed here will be served at `https://tradermonty.github.io/finviz-mcp-server/`. Keep internal-only files (drafts, private checklists, etc.) outside this directory and add them to `.gitignore` so they are excluded from both the repository and the published site.
+> Note: this `articles/` directory is the GitHub Pages publish root (see `.github/workflows/deploy-pages.yml`). Anything placed here will be served at `https://gilfernandes2000.github.io/finviz-mcp-server/`. Keep internal-only files (drafts, private checklists, etc.) outside this directory and add them to `.gitignore` so they are excluded from both the repository and the published site.
 
 ## Structure
 
@@ -13,7 +13,7 @@ This directory contains documentation and guides for the Finviz MCP Server proje
 
 ## Live Site
 
-Visit the documentation at: [https://tradermonty.github.io/finviz-mcp-server/](https://tradermonty.github.io/finviz-mcp-server/)
+Visit the documentation at: [https://gilfernandes2000.github.io/finviz-mcp-server/](https://gilfernandes2000.github.io/finviz-mcp-server/)
 
 ## Documentation
 
@@ -29,6 +29,6 @@ The documentation site is automatically deployed to GitHub Pages via GitHub Acti
 
 ## Project Links
 
-- **Main Repository**: [finviz-mcp-server](https://github.com/tradermonty/finviz-mcp-server)
-- **Installation Guide**: [README.md](https://github.com/tradermonty/finviz-mcp-server#installation)
-- **Developer**: [@monty_investor](https://x.com/monty_investor)
+- **Main Repository**: [finviz-mcp-server](https://github.com/GilFernandes2000/finviz-mcp-server)
+- **Installation Guide**: [README.md](https://github.com/GilFernandes2000/finviz-mcp-server#installation)
+- **Upstream Project**: [tradermonty/finviz-mcp-server](https://github.com/tradermonty/finviz-mcp-server)

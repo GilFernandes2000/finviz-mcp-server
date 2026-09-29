@@ -9,8 +9,11 @@ description = "Advanced stock screening and financial analysis MCP server with F
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
+# Fork of https://github.com/tradermonty/finviz-mcp-server (MIT).
+# The upstream copyright notice is retained in LICENSE as the MIT terms
+# require; this field names the maintainer of this fork.
 authors = [
-    {name = "TraderMonty", email = "noreply@finviz-mcp.com"}
+    {name = "João Gil Fernandes", email = "GilFernandes2000@users.noreply.github.com"}
 ]
 keywords = [
     "mcp", "finviz", "stocks", "finance", "screening", "investment",
@@ -68,10 +71,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/tradermonty/finviz-mcp-server"
-Repository = "https://github.com/tradermonty/finviz-mcp-server"
-Issues = "https://github.com/tradermonty/finviz-mcp-server/issues"
-Documentation = "https://github.com/tradermonty/finviz-mcp-server/blob/main/docs/"
+Homepage = "https://github.com/GilFernandes2000/finviz-mcp-server"
+Repository = "https://github.com/GilFernandes2000/finviz-mcp-server"
+Issues = "https://github.com/GilFernandes2000/finviz-mcp-server/issues"
+Documentation = "https://github.com/GilFernandes2000/finviz-mcp-server/blob/main/docs/"
+"Upstream project" = "https://github.com/tradermonty/finviz-mcp-server"
 
 [project.scripts]
 finviz-mcp-server = "src.server:cli_main"

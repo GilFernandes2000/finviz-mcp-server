@@ -382,13 +382,13 @@ This tool is for educational and research purposes only. Always conduct your own
 
 For issues and feature requests, please use the GitHub issue tracker.
 
-## Support the Project
-
-If you find this project helpful, consider supporting its development:
-
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-Support_Development-orange?style=for-the-badge&logo=buy-me-a-coffee)](https://coff.ee/tradermonty)
-
 ## Changelog
+
+### v2.0.0
+- **Breaking:** requires Python 3.11+ (3.8-3.10 dropped) and `mcp>=2.2.0`
+- Migrated from the removed FastMCP API to `MCPServer` (mcp 2.x)
+- SEC EDGAR support moved to the optional `[edgar]` extra
+- Dependency floors raised; tested on Python 3.11-3.14
 
 ### v1.0.0
 - Initial release
