@@ -18,7 +18,8 @@ sys.path.insert(0, project_root)
 # FastMCP wraps any exception raised inside a tool function in ``ToolError``
 # at the boundary. Import it under an alias so error-path tests can
 # distinguish the boundary error from local domain exceptions.
-from mcp.server.fastmcp.exceptions import ToolError as McpToolError  # noqa: E402
+from mcp.server.mcpserver.exceptions import ToolError as McpToolError  # noqa: E402
+
 from src.finviz_client.base import FinvizClient  # noqa: E402
 from src.finviz_client.screener import FinvizScreener  # noqa: E402
 from src.models import StockData  # noqa: E402
@@ -120,7 +121,7 @@ class TestComprehensiveE2E:
             assert result is not None
             assert len(result) > 0
             result_text = str(
-                result[0][0].text
+                result.content[0].text
             )  # FastMCP returns (unstructured_list, structured_dict); see #34
             assert "AAPL" in result_text
             mock_screener.assert_called_once()
@@ -137,7 +138,7 @@ class TestComprehensiveE2E:
 
             assert result is not None
             result_text = str(
-                result[0][0].text
+                result.content[0].text
             )  # FastMCP returns (unstructured_list, structured_dict); see #34
             assert "固定フィルタ条件" in result_text
             mock_screener.assert_called_once()
@@ -154,7 +155,7 @@ class TestComprehensiveE2E:
 
             assert result is not None
             result_text = str(
-                result[0][0].text
+                result.content[0].text
             )  # FastMCP returns (unstructured_list, structured_dict); see #34
             # The earnings_trading_screener output now lists tickers below
             # the fixed-filter description; match case-insensitively against
@@ -175,7 +176,7 @@ class TestComprehensiveE2E:
 
             assert result is not None
             result_text = str(
-                result[0][0].text
+                result.content[0].text
             )  # FastMCP returns (unstructured_list, structured_dict); see #34
             assert "AAPL" in result_text
             # The fundamentals formatter renders sector/industry but not the
@@ -198,7 +199,7 @@ class TestComprehensiveE2E:
 
             assert result is not None
             result_text = str(
-                result[0][0].text
+                result.content[0].text
             )  # FastMCP returns (unstructured_list, structured_dict); see #34
             assert "AAPL" in result_text
             assert "MSFT" in result_text

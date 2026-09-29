@@ -44,7 +44,7 @@ A Model Context Protocol (MCP) server that provides comprehensive stock screenin
 ## Installation
 
 ### Prerequisites
-- Python 3.11 or higher
+- Python 3.11 or higher (3.14 recommended)
 - **Finviz Elite Subscription** (required for full functionality)
 - Finviz API key (optional but recommended for higher rate limits)
 
@@ -58,8 +58,8 @@ A Model Context Protocol (MCP) server that provides comprehensive stock screenin
 git clone <repository-url>
 cd finviz-mcp-server
 
-# Create virtual environment with Python 3.11
-python3.11 -m venv venv
+# Create virtual environment with Python 3.14
+python3.14 -m venv venv
 
 # Activate virtual environment
 source venv/bin/activate  # On macOS/Linux
@@ -68,6 +68,9 @@ venv\\Scripts\\activate     # On Windows
 
 # Install the package in development mode
 pip install -e .
+
+# Optional: enable the SEC EDGAR tools
+pip install -e ".[edgar]"
 ```
 
 2. **Configure environment variables:**

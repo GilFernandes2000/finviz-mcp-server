@@ -327,7 +327,7 @@ class TestCustomScreenerTool:
                 },
             )
 
-            text = result[0][0].text
+            text = result.content[0].text
             # Core values must appear — not "N/A"
             assert "Apple Inc." in text
             assert "$195.50" in text
@@ -354,7 +354,7 @@ class TestCustomScreenerTool:
                 },
             )
 
-            text = result[0][0].text
+            text = result.content[0].text
             assert "No stocks found" in text
 
     @pytest.mark.asyncio
@@ -385,7 +385,7 @@ class TestCustomScreenerTool:
                 },
             )
 
-            text = result[0][0].text
+            text = result.content[0].text
             assert "+0.00%" in text  # price_change == 0
             assert "P/E: 0.0" in text  # pe_ratio == 0
 
@@ -401,7 +401,7 @@ class TestCustomScreenerTool:
                 "max_results": 0,
             },
         )
-        text = result[0][0].text
+        text = result.content[0].text
         assert "Invalid max_results" in text
 
         result2 = await server.call_tool(
@@ -411,7 +411,7 @@ class TestCustomScreenerTool:
                 "max_results": 501,
             },
         )
-        text2 = result2[0][0].text
+        text2 = result2.content[0].text
         assert "Invalid max_results" in text2
 
     @pytest.mark.asyncio
@@ -425,7 +425,7 @@ class TestCustomScreenerTool:
                 "filters": "<script>alert(1)</script>",
             },
         )
-        text = result[0][0].text
+        text = result.content[0].text
         assert "Filter validation error" in text
 
 

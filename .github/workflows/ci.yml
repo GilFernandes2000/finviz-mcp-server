@@ -26,7 +26,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.14'
           cache: 'pip'
 
       - name: Install lint tools
@@ -57,13 +57,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.14'
           cache: 'pip'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install -e ".[dev,edgar]"
 
       - name: Run mypy (informational)
         run: |
@@ -95,7 +95,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.11', '3.12']
+        python-version: ['3.11', '3.12', '3.13', '3.14']
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -109,7 +109,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install -e ".[dev,edgar]"
 
       # Run the full offline test suite. Live / e2e tests are auto-marked
       # via tests/conftest.py (LIVE_TEST_FILENAME_PATTERNS) and excluded
@@ -117,14 +117,10 @@ jobs:
       # Resolves Deferred Risk R2 (marker separation) in
       # reviews/REVIEW_TRACKING.md.
       #
-      # ``test_edgar_api.py`` is ignored at collection time because
-      # ``sec_edgar_api`` fails to import on CI (pyrate-limiter 3.x API
-      # mismatch — Limiter() no longer accepts ``raise_when_fail``). The
-      # tests themselves are e2e-only and would be deselected by
-      # ``-m "not e2e"`` anyway, but pytest still imports the module
-      # during collection. Until EDGAR is re-enabled in PR E, skip
-      # collection.
+      # ``test_edgar_api.py`` now collects cleanly: the ``[edgar]`` extra
+      # caps ``pyrate-limiter`` below 4.x, so ``sec_edgar_api`` imports.
+      # Its tests are e2e-only and remain deselected by ``-m "not e2e"``.
       - name: Run offline test suite
-        run: pytest -m "not e2e" -q --ignore=tests/test_edgar_api.py
+        run: pytest -m "not e2e" -q
         env:
           PYTHONPATH: ${{ github.workspace }}

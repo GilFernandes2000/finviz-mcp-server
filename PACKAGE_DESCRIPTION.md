@@ -54,7 +54,7 @@ finviz-mcp-server
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.11+
 - Finviz Elite subscription (recommended for full features)
 - MCP-compatible client (Claude Desktop, etc.)
 

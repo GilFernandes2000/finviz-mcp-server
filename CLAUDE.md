@@ -6,14 +6,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Environment Setup
 ```bash
-# Create virtual environment with Python 3.11+
-python3.11 -m venv venv
+# Create virtual environment with Python 3.14 (3.11+ supported)
+python3.14 -m venv venv
 source venv/bin/activate  # On macOS/Linux
 # or
 venv\Scripts\activate     # On Windows
 
 # Install dependencies in development mode
-pip install -e .
+pip install -e ".[dev]"
+
+# Optional: SEC EDGAR support (pins pyrate-limiter<4, see pyproject.toml)
+pip install -e ".[dev,edgar]"
 ```
 
 ### Running the Server

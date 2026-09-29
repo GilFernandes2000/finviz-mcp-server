@@ -419,7 +419,7 @@ finviz_get_capitalization_performance()
 
 ## 📋 システム要件
 
-- Python 3.8+
+- Python 3.11+
 - pandas, requests, beautifulsoup4
 - MCol Context Protocol対応環境
 
@@ -486,7 +486,7 @@ python run_server.py
 ## インストール
 
 ### 前提条件
-- Python 3.11以上
+- Python 3.11以上（3.14 推奨）
 - **Finviz Elite契約**（フル機能の利用に必要）
 - Finviz APIキー（オプション、ただしレート制限の向上のため推奨）
 
@@ -500,8 +500,8 @@ python run_server.py
 git clone <repository-url>
 cd finviz-mcp-server
 
-# Python 3.11で仮想環境を作成
-python3.11 -m venv venv
+# Python 3.14で仮想環境を作成
+python3.14 -m venv venv
 
 # 仮想環境をアクティベート
 source venv/bin/activate  # macOS/Linux

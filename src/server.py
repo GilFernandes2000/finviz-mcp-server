@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import logging
 import os
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _package_version
 from typing import Any, Dict, List, Optional, Union
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 from mcp.types import TextContent
 
 from .field_discovery.tools import register_field_discovery_tools
@@ -30,7 +32,15 @@ from .utils.validators import (
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-server = FastMCP("Finviz MCP Server")
+# mcp 2.x reports an empty ``serverInfo.version`` unless one is supplied
+# (1.x fell back to the SDK's own version). Report the installed package
+# version so clients can identify the server across releases.
+try:
+    __version__ = _package_version("finviz-mcp-server")
+except PackageNotFoundError:  # running from a source tree without an install
+    __version__ = "0.0.0"
+
+server = MCPServer("Finviz MCP Server", version=__version__)
 
 # Initialize Finviz clients
 finviz_api_key = os.getenv("FINVIZ_API_KEY")

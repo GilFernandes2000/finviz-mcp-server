@@ -10,13 +10,13 @@ import logging
 from unittest.mock import patch
 
 import pytest
+from mcp.server.mcpserver import MCPServer
 
-from mcp.server.fastmcp import FastMCP
-
-# FastMCP wraps tool exceptions in mcp.server.fastmcp.exceptions.ToolError
+# MCPServer wraps tool exceptions in mcp.server.mcpserver.exceptions.ToolError
 # when invoked through ``server.call_tool``.
-from mcp.server.fastmcp.exceptions import ToolError as McpToolError
+from mcp.server.mcpserver.exceptions import ToolError as McpToolError
 from mcp.types import TextContent
+
 from src.finviz_client.base import FinvizClient
 from src.finviz_client.news import FinvizNewsClient
 from src.finviz_client.screener import FinvizScreener
@@ -28,6 +28,14 @@ logger = logging.getLogger(__name__)
 
 
 def _content_list(result):
+    """Normalise a ``call_tool`` result down to its content list.
+
+    mcp 2.x returns a ``CallToolResult``; mcp 1.x returned either a bare
+    list or a ``(content_list, structured)`` tuple. Accept all three so the
+    assertions below describe the payload, not the SDK envelope.
+    """
+    if hasattr(result, "content"):
+        return result.content
     return result[0] if isinstance(result, tuple) else result
 
 
@@ -59,7 +67,7 @@ class TestMCPServerIntegration:
     async def test_server_initialization(self):
         """Test that the MCP server initializes correctly."""
         assert server is not None
-        assert isinstance(server, FastMCP)
+        assert isinstance(server, MCPServer)
         assert server.name == "Finviz MCP Server"
 
     @pytest.mark.asyncio
@@ -117,7 +125,7 @@ class TestMCPServerIntegration:
             assert len(tool.description) > 0
 
             # Tools should have input schema
-            assert tool.inputSchema is not None
+            assert tool.input_schema is not None
 
     @pytest.mark.asyncio
     async def test_mcp_protocol_compliance(self):
@@ -129,11 +137,9 @@ class TestMCPServerIntegration:
         assert isinstance(tools, list)
         assert len(tools) > 0
 
-        # Test that tools return proper TextContent.
-        # FastMCP's ``call_tool`` now returns ``(content_list, structured)``
-        # where ``content_list`` is the iterable of ``TextContent``/dicts
-        # callers want to render and ``structured`` is the JSON-shaped
-        # response. We accept either legacy bare-list or the new tuple shape.
+        # Test that tools return proper TextContent. ``MCPServer.call_tool``
+        # returns a ``CallToolResult``; ``_content_list`` unwraps it to the
+        # ``TextContent`` list callers actually render.
         with patch.object(FinvizScreener, "earnings_screener") as mock_screener:
             mock_screener.return_value = self.mock_results
 

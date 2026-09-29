@@ -9,12 +9,13 @@ import logging
 from unittest.mock import patch
 
 import pytest
-from requests.exceptions import ConnectionError, HTTPError, Timeout
 
-# FastMCP wraps tool exceptions in mcp.server.fastmcp.exceptions.ToolError when
+# MCPServer wraps tool exceptions in mcp.server.mcpserver.exceptions.ToolError when
 # invoked through ``server.call_tool``. Import it under an alias so tests can
 # distinguish boundary errors from local domain errors (src.utils.exceptions).
-from mcp.server.fastmcp.exceptions import ToolError as McpToolError
+from mcp.server.mcpserver.exceptions import ToolError as McpToolError
+from requests.exceptions import ConnectionError, HTTPError, Timeout
+
 from src.finviz_client.screener import FinvizScreener
 from src.server import server
 from src.utils.validators import validate_ticker
@@ -92,11 +93,20 @@ class TestInputValidation:
             with pytest.raises(McpToolError) as exc_info:
                 await server.call_tool("earnings_screener", {"earnings_date": date})
 
-            # FastMCP wraps the underlying validation failure; either the
-            # pydantic message ("validation error") or the explicit
-            # ``Invalid earnings_date`` string is acceptable.
+            # mcp 2.x no longer leaks tool-internal exception text into the
+            # client-facing ToolError message: a domain ``ValueError`` raised
+            # inside the tool body surfaces as a generic "Error executing
+            # tool ..." with the detail preserved on ``__cause__``. Argument
+            # validation performed by pydantic *before* the body runs still
+            # reports inline. Assert the diagnosis is reachable either way.
             msg = str(exc_info.value)
-            assert "earnings_date" in msg or "validation error" in msg.lower()
+            cause = str(exc_info.value.__cause__ or "")
+            assert (
+                "earnings_date" in msg
+                or "validation error" in msg.lower()
+                or "earnings_date" in cause
+                or "validation error" in cause.lower()
+            ), f"no diagnosable cause for {date!r}: msg={msg!r} cause={cause!r}"
 
     @pytest.mark.asyncio
     async def test_invalid_market_cap_values(self):

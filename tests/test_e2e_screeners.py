@@ -13,7 +13,8 @@ import pytest
 # FastMCP wraps any exception raised inside a tool function in ``ToolError``
 # at the boundary. Import it under an alias so error-path tests can
 # distinguish the boundary error from local domain exceptions.
-from mcp.server.fastmcp.exceptions import ToolError as McpToolError
+from mcp.server.mcpserver.exceptions import ToolError as McpToolError
+
 from src.finviz_client.base import FinvizClient
 from src.finviz_client.news import FinvizNewsClient
 from src.finviz_client.screener import FinvizScreener
@@ -619,7 +620,7 @@ class TestErrorHandling:
     Error model after PR B (error-policy unification):
     - All tool top-level ``except Exception`` handlers ``raise`` to let
       FastMCP wrap the underlying exception in ``ToolError`` at the
-      boundary (mcp.server.fastmcp.tools.base:110).
+      boundary (mcp.server.mcpserver.tools).
     - Inner ``except ValueError`` handlers in validators / parsers may
       still re-raise after annotating the message; FastMCP wraps those
       too. So **all** error paths now surface as ``McpToolError`` to the
